@@ -3,7 +3,7 @@
 ## What does it do?
   >this code copy elements from a column in a range than cìpast 
 ## How i can personalize this code?
->with [' '] you can change the code 
+>with [' '] you can change and personalize the code 
 
 
 
