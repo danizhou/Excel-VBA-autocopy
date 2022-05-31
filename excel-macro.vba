@@ -1,39 +1,43 @@
 Option Explicit
 Sub mergefile()           'function name
-Dim nomifile As String           'dichiarazione delle variabili
-Dim tuttifile As Workbook
-Dim lastrow As Range            'per trovare l'ultima riga
-Dim findrownumb As Long             'variabile ultima riga
+Dim namefile As String           'declaration variable
+Dim allfile As Workbook
+Dim lastrow As Range            'to find the last row
+Dim findrownumb As Long             'last row variable
 
-nomifile = Dir("C:\analisidati\")  'estrapoliamo e inseriamo nella variabile nomifile il risultato di dir
-                                    'Dir serve per restituire il primo elemento della cartella
+namefile = Dir("C:\analisidati")  'taking out all the file in this directory [**PLEASE INSERT YOUR DIRECTORY**}
+                                    'Dir is a command to view the first file inside a directory
                                     
-    Do Until nomifile = ""              'ciclo do finche non trova Dir = nulla
-'    Debug.Print nomifile                'funzione per printare a debug il nome
+    Do Until namefile = ""              'do cycle until he find the last element
+'    Debug.Print namefile                'debud print
     
-    Set tuttifile = Workbooks.Open("C:\analisidati\" & nomifile) 'concatena il valore della cartella con il nome del file
+    Set allfile = Workbooks.Open("C:\analisidati" & namefile) 'concat the link to the directory and the file
 
-    tuttifile.Worksheets(1).Select                  'seleziona il primo foglio
-        Do                                          'inizio ciclo per selezione del file
-'        Debug.Print ActiveSheet.Name                'printa il nome del file
+    allfile.Worksheets(1).Select                  'select the first worksheet 
+        Do                                          'star cycle inside the worksheet
+'        Debug.Print ActiveSheet.Name                'debug print 
         
          
-         Set lastrow = ActiveSheet.Range("A:A").Find(What:="note", LookIn:=xlValues)  'per trovare la ultima riga
-         findrownumb = lastrow.Row                                      ' associo al valore ultima riga
-         ActiveSheet.Range("B11", "B" & findrownumb - 1).Copy    'seleziona tutti i valori
-          'ActiveSheet.Range("B9").CurrentRegion.Select
-       ' ActiveSheet.Range(ActiveCell, ActiveCell.End(xlDown)).Select
-         'ActiveSheet.Range("B11").End(xlDown).Row
-         Debug.Print findrownumb
-         'Range(Range("A5"), Range("A5").End(xlDown)).Select
-         ThisWorkbook.Worksheets(1).Range("A999999").End(xlUp).Offset(1).PasteSpecial
+         Set lastrow = ActiveSheet.Range("A:A").Find(What:="note", LookIn:=xlValues)  'in this case i need to find the last row, on this model it have "note" inside all the file
+         'range that select all the elements inside the column A
+         findrownumb = lastrow.Row                                      ' associate row number with the variables
+         ActiveSheet.Range("B11", "B" & findrownumb - 1).Copy    'select all the element in the range
+        '[] or you can use this other function to select element from a cell to other element in the all column
+          'ActiveSheet.Range("B9").CurrentRegion.Select [** insert the cell coordinate**]
+       ' ActiveSheet.Range(ActiveCell, ActiveCell.End(xlDown)).Select 
+         '[]
+
+
+
+         ' Debug.Print findrownumb                            
+         ThisWorkbook.Worksheets(1).Range("A999999").End(xlUp).Offset(1).PasteSpecial 'this will paste all the elements in the first column 
         
           
-        If ActiveSheet.Next Is Nothing Then Exit Do         ' se il valore prossimo foglio è null allora esce
-        ActiveSheet.Next.Select                             'se no seleziona il prossimo foglio
-        Loop                                            'ciclo loop
-    tuttifile.Close                                     ' chiude il file
-    nomifile = Dir                                       ' restituisce il prossimo file
+        If ActiveSheet.Next Is Nothing Then Exit Do         'if the next elements is null it exit
+        ActiveSheet.Next.Select                             'if no it will open the next worksheet
+        Loop                                            
+    allfile.Close                                     ' close the file
+    namefile = Dir                                       ' associate the next file name to the variable
     
     Loop
     
